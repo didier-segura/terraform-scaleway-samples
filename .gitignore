@@ -1,0 +1,6 @@
+tfplan.binary
+plan.json
+samples/*.json
+samples/tfplan.binary
+samples/.terraform
+samples/.terraform.*
