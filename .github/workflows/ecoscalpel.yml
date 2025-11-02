@@ -99,7 +99,7 @@ jobs:
         uses: didier-segura/actions/setup@v0.1.7
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
-          version: v0.0.6
+          version: prod-0.0.7
 
       - name: Checkout main/master branch
         uses: actions/checkout@v4
