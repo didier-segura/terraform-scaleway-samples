@@ -11,7 +11,7 @@ resource "scaleway_k8s_pool" "example_kapsule_pool" {
   cluster_id = scaleway_k8s_cluster.example_kapsule.id
   name       = "example-pool"
   node_type  = "DEV1-M"
-  size       = 2
+  size       = 4
   zone       = "fr-par-1"
 }
 
