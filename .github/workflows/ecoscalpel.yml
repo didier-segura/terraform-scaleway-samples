@@ -39,7 +39,7 @@ jobs:
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
           token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
-          version: prod-0.0.7
+          version: prod-0.0.8
 
       # Checkout the base branch of the pull request (e.g. main/master).
       - name: Checkout base branch
@@ -50,7 +50,7 @@ jobs:
       # Generate EcoScalpel JSON file as the baseline.
       - name: Generate EcoScalpel cost estimate baseline
         run: |
-          ecoscalpel breakdown --path=. \
+          ecoscalpel breakdown --dir=. \
                                --format=json \
                                --out-file=/tmp/ecoscalpel-base.json
 
@@ -62,7 +62,7 @@ jobs:
       # Generate an EcoScalpel diff and save it to a JSON file.
       - name: Generate EcoScalpel diff
         run: |
-          ecoscalpel diff --path=. \
+          ecoscalpel diff --dir=. \
                           --format=json \
                           --compare-to=/tmp/ecoscalpel-base.json \
                           --out-file=/tmp/ecoscalpel.json
@@ -94,7 +94,7 @@ jobs:
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
           token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
-          version: prod-0.0.7
+          version: prod-0.0.8
 
 
       - name: Checkout main/master branch
@@ -102,29 +102,27 @@ jobs:
 
       - name: Run EcoScalpel on default branch and update EcoScalpel Cloud
         run: |
-          ecoscalpel breakdown --path=. \
+          ecoscalpel breakdown --dir=. \
                     --format=json \
                     --out-file=ecoscalpel.json
 
-          ecoscalpel upload --path=ecoscalpel.json || echo "Always pass main branch runs even if there are policy failures"
-
   # Update PR status in EcoScalpel Cloud
-  ecoscalpel-pull-request-status-update:
-    name: EcoScalpel PR Status Update
-    if: github.event_name == 'pull_request_target' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    steps:
-    - name: EcoScalpel PR Status Update
-      run: |
-        PR_STATUS="MERGED"
-        if [[ ${{ github.event.pull_request.merged }} = false ]]; then PR_STATUS="CLOSED"; fi
+  # ecoscalpel-pull-request-status-update:
+  #   name: EcoScalpel PR Status Update
+  #   if: github.event_name == 'pull_request_target' && github.event.action == 'closed'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: EcoScalpel PR Status Update
+  #     run: |
+  #       PR_STATUS="MERGED"
+  #       if [[ ${{ github.event.pull_request.merged }} = false ]]; then PR_STATUS="CLOSED"; fi
 
-        echo "Updating status of ${{ github.event.pull_request.html_url }} to $PR_STATUS"
-        curl -i \
-          --request POST \
-          --header "Content-Type: application/json" \
-          --header "X-API-Key: $ECOSCALPEL_API_KEY" \
-          --data "{ \"query\": \"mutation {updatePullRequestStatus( url: \\\"${{ github.event.pull_request.html_url }}\\\", status: $PR_STATUS )}\" }" \
-          "https://dashboard.api.ecoscalpel.io/graphql";
-      env:
-        ECOSCALPEL_API_KEY: ${{ secrets.ECOSCALPEL_API_KEY }}
+  #       echo "Updating status of ${{ github.event.pull_request.html_url }} to $PR_STATUS"
+  #       curl -i \
+  #         --request POST \
+  #         --header "Content-Type: application/json" \
+  #         --header "X-API-Key: $ECOSCALPEL_API_KEY" \
+  #         --data "{ \"query\": \"mutation {updatePullRequestStatus( url: \\\"${{ github.event.pull_request.html_url }}\\\", status: $PR_STATUS )}\" }" \
+  #         "https://dashboard.api.ecoscalpel.io/graphql";
+  #     env:
+  #       ECOSCALPEL_API_KEY: ${{ secrets.ECOSCALPEL_API_KEY }}
