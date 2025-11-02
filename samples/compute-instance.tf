@@ -29,7 +29,7 @@ resource "scaleway_instance_server" "example2" {
   root_volume {
     volume_type = "sbs_volume"
     sbs_iops    = 15000
-    size_in_gb  = 50
+    size_in_gb  = 500
   }
   ip_id = scaleway_instance_ip.public_ip2.id
 }
