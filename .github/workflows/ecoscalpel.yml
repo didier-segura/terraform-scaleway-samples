@@ -39,7 +39,7 @@ jobs:
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
           token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
-          version: prod-0.0.8
+          version: prod-0.0.8a
 
       # Checkout the base branch of the pull request (e.g. main/master).
       - name: Checkout base branch
@@ -94,7 +94,7 @@ jobs:
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
           token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
-          version: prod-0.0.8
+          version: prod-0.0.8a
 
 
       - name: Checkout main/master branch
