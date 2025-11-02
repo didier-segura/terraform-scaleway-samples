@@ -46,6 +46,7 @@ jobs:
         # See https://github.com/didier-segura/actions/tree/main/setup for other inputs
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
+          token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
           version: prod-0.0.7
 
       # Checkout the base branch of the pull request (e.g. main/master).
