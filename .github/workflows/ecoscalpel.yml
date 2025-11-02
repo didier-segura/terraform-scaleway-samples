@@ -3,14 +3,14 @@ name: EcoScalpel Scan
 on:
   pull_request:
     paths:
-      - "samples/*.tf"
+      - "**/*.tf"
   push:
     branches:
       - main
       - master
       - feature/**
     paths:
-      - "samples/*.tf"
+      - "**/*.tf"
 
 jobs:
   ecoscalpel:
