@@ -11,7 +11,7 @@ resource "scaleway_k8s_pool" "example_kapsule_pool" {
   cluster_id = scaleway_k8s_cluster.example_kapsule.id
   name       = "example-pool"
   node_type  = "DEV1-M"
-  size       = 3
+  size       = 1
   zone       = "fr-par-1"
 }
 
@@ -28,7 +28,7 @@ resource "scaleway_k8s_pool" "dev_xl_kapsule_pool" {
   cluster_id = scaleway_k8s_cluster.dedicated_8_kapsule.id
   name       = "dev_xl_kapsule_pool"
   node_type  = "DEV1-XL"
-  size       = 2
+  size       = 1
   zone       = "fr-par-1"
   root_volume_size_in_gb = 100
   root_volume_type       = "sbs_15k"
