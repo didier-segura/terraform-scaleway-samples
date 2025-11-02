@@ -3,13 +3,14 @@ name: EcoScalpel Scan
 on:
   pull_request:
     paths:
-      - "**/*.tf"
+      - "terraform-scaleway-samples/**/*.tf"
   push:
     branches:
       - main
       - master
+      - feature/**
     paths:
-      - "**/*.tf"
+      - "terraform-scaleway-samples/**/*.tf"
 
 jobs:
   ecoscalpel:
