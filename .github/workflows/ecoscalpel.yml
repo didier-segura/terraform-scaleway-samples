@@ -42,7 +42,7 @@ jobs:
       #     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Setup EcoScalpel
-        uses: didier-segura/actions/setup@v0.1.6
+        uses: didier-segura/actions/setup@v0.1.7
         # See https://github.com/didier-segura/actions/tree/main/setup for other inputs
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup EcoScalpel
-        uses: didier-segura/actions/setup@v0.1.6
+        uses: didier-segura/actions/setup@v0.1.7
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
           version: v0.0.6
