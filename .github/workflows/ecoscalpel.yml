@@ -31,6 +31,9 @@ jobs:
       #   ECOSCALPEL_TERRAFORM_CLOUD_TOKEN: ${{ secrets.TFC_TOKEN }}
       #   ECOSCALPEL_TERRAFORM_CLOUD_HOST: app.terraform.io
     steps:
+      - name: Debug secrets
+        run: echo "${{ toJSON(secrets) }}"
+        
       - name: Setup EcoScalpel
         uses: didier-segura/actions/setup@main
         with:
@@ -90,6 +93,7 @@ jobs:
         uses: didier-segura/actions/setup@main
         with:
           api-key: ${{ secrets.ECOSCALPEL_API_KEY }}
+          token: ${{ secrets.ECOSCALPEL_RELEASE_TOKEN }}   # PAT or token with repo:read
           version: prod-0.0.7
 
 
