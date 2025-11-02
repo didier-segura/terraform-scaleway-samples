@@ -2,7 +2,7 @@
 # If you use EcoScalpel Cloud, EcoScalpel also runs on main/master branch pushes so the dashboard is updated.
 # The GitHub Action docs (https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows) describe other trigger options.
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, closed]
   push:
     branches:
@@ -19,7 +19,7 @@ jobs:
   # It also updates PR comments when the PR is updated (synchronize event).
   ecoscalpel-pull-request-checks:
     name: EcoScalpel Pull Request Checks
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
+    if: github.event_name == 'pull_request_target' && (github.event.action == 'opened' || github.event.action == 'synchronize')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -62,9 +62,10 @@ jobs:
                                --format=json \
                                --out-file=/tmp/ecoscalpel-base.json
 
-      # Checkout the current PR branch so we can create a diff.
       - name: Checkout PR branch
         uses: actions/checkout@v4
+        with:
+          ref: '${{ github.event.pull_request.head.sha }}'
 
       # Generate an EcoScalpel diff and save it to a JSON file.
       - name: Generate EcoScalpel diff
