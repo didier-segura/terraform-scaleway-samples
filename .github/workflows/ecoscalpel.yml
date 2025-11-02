@@ -3,14 +3,14 @@ name: EcoScalpel Scan
 on:
   pull_request:
     paths:
-      - "terraform-scaleway-samples/**/*.tf"
+      - "samples/*.tf"
   push:
     branches:
       - main
       - master
       - feature/**
     paths:
-      - "terraform-scaleway-samples/**/*.tf"
+      - "samples/*.tf"
 
 jobs:
   ecoscalpel:
@@ -29,7 +29,7 @@ jobs:
         with:
           setup_api_key: ${{ secrets.ECOSCALPEL_API_KEY }}
           mode: dir
-          terraform_dir: terraform-scaleway-samples/samples
+          terraform_dir: samples
           format: markdown
 
       - name: Upload EcoScalpel report
