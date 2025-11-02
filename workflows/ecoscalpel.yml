@@ -1,0 +1,53 @@
+name: EcoScalpel Scan
+
+on:
+  pull_request:
+    paths:
+      - "**/*.tf"
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - "**/*.tf"
+
+jobs:
+  ecoscalpel:
+    name: EcoScalpel Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run EcoScalpel
+        id: run
+        uses: ./actions/run
+        with:
+          setup_api_key: ${{ secrets.ECOSCALPEL_API_KEY }}
+          mode: dir
+          terraform_dir: terraform-scaleway-samples/samples
+          format: markdown
+
+      - name: Upload EcoScalpel report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecoscalpel-report
+          path: ${{ steps.run.outputs.report_path }}
+
+      - name: Comment cost report on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          REPORT: ${{ steps.run.outputs.report }}
+        with:
+          script: |
+            const body = `### EcoScalpel cost & sustainability report\n\n${process.env.REPORT}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
