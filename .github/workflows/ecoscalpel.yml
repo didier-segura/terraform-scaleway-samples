@@ -30,6 +30,7 @@ jobs:
       # See https://github.com/didier-segura/actions for details.
       #   ECOSCALPEL_TERRAFORM_CLOUD_TOKEN: ${{ secrets.TFC_TOKEN }}
       #   ECOSCALPEL_TERRAFORM_CLOUD_HOST: app.terraform.io
+    steps:
       - name: Setup EcoScalpel
         uses: didier-segura/actions/setup@main
         with:
